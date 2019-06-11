@@ -1,0 +1,14 @@
+type Link {
+  url: String
+  description: String
+  postedBy: User
+}
+
+type User {
+  name: String
+}
+
+type Query {
+  allLinks(secureOnly: Boolean = false): [Link]
+  ping(secureOnly: Boolean = false): String
+}

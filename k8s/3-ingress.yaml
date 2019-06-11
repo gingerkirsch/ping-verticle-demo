@@ -1,0 +1,25 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ env "APP_NAME" }}-ingress
+  namespace: {{ env "NAMESPACE" }}
+  annotations:
+    kubernetes.io/ingress.class: kong
+    kubernetes.io/tls-acme: "true"
+    configuration.konghq.com: strip-path
+  labels:
+    app: {{ env "APP_NAME" }}
+spec:
+  tls:
+    - secretName: {{ env "API_GATEWAY_URL" }}-crt-secret
+      hosts:
+        - {{ env "API_GATEWAY_URL" }}
+  rules:
+    - host: {{ env "API_GATEWAY_URL" }}
+      http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: {{ env "APP_NAME" }}
+              servicePort: {{ env "SERVICE_PORT" }}

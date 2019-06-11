@@ -1,0 +1,24 @@
+---
+dockerRepository:
+  developmentRepositoryName: mycujoo-ping-pong-demo # original name is hidden #
+  branchRepositoryName:
+    master: mycujoo-ping-pong-demo # original name is hidden #
+  registryRoot: eu.gcr.io
+application:
+  name: cmm-ping-verticle-demo
+  pathToKubernetesFiles: k8s
+  version: "0.0.1"
+  kubernetesTemplate:
+    globalVariables:
+    - SECRETS_LOCATION=development
+    - API_GATEWAY_URL=mycujoo-ping-pong-demo # original url is hidden #
+    - REPLICA_COUNT=1
+    - MYCUJOO_ENVIRONMENT=development
+    - MAIN_DOMAIN=mycujoo-ping-pong-demo # original domain is hidden #
+    - INGRESS_CLASS=kong
+    - PORT=8666
+    - SERVICE_PORT=8234
+    - PORT_NAME=demo-port
+    - APP_NAME={{.KD_APP_NAME}}
+    - NAMESPACE=ping-pong-conference-talk
+    - IMAGE={{.KD_IMAGE_FULL_PATH}}

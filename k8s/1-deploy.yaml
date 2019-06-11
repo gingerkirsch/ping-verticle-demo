@@ -1,0 +1,31 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ env "KD_RELEASE_NAME" }}
+  namespace: {{ env "NAMESPACE" }}
+spec:
+  replicas: {{ env "REPLICA_COUNT" }}
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: {{ env "APP_NAME" }}
+  template:
+    metadata:
+      labels:
+        app: {{ env "APP_NAME" }}
+        release: {{ env "KD_RELEASE_NAME" }}
+        gitsha: "{{ env "KD_GIT_SHA" }}"
+        component: vertx-discover
+    spec:
+      containers:
+      - name: {{ env "APP_NAME" }}
+        imagePullPolicy: Always
+        image: {{ env "IMAGE" }}
+        ports:
+        - name: {{ env "PORT_NAME" }}
+          containerPort: {{ env "PORT" }}
+        env:
+        - name: GIT_SHA
+          value: "{{ env "KD_GIT_SHA" }}"

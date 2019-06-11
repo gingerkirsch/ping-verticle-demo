@@ -1,0 +1,16 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ env "APP_NAME" }}
+  namespace: {{ env "NAMESPACE" }}
+spec:
+  sessionAffinity: None
+  type: NodePort
+  externalTrafficPolicy: Cluster
+  selector:
+    app: {{ env "APP_NAME" }}
+  ports:
+    - name: http
+      port: {{ env "SERVICE_PORT" }}
+      targetPort: {{ env "PORT_NAME" }}
